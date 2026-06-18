@@ -24,7 +24,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           justifyContent: "space-between",
         }}
       >
-        <h2 style={{ margin: 0, fontSize: 18 }}>⚽ World Cup Tracker</h2>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          <img
+            src="/world_cup_logo.png"
+            alt="World Cup logo"
+            style={{
+              width: "24px",
+              height: "24px",
+            }}
+          />
+          <h2 style={{ margin: 0, fontSize: 18 }}>World Cup Tracker</h2>
+        </div>
 
         <nav style={{ display: "flex", gap: 8 }}>
           <Link to="/" style={linkStyle("/")}>

@@ -1,7 +1,7 @@
 import httpx
 import os
 from dotenv import load_dotenv
-
+from config import WORLD_CUP_LEAGUE_ID, WORLD_CUP_SEASON
 load_dotenv()
 
 API_KEY = os.getenv("FOOTBALL_API_KEY")
@@ -16,7 +16,11 @@ async def get_live_matches():
         response = await client.get(
             f"{BASE_URL}/fixtures",
             headers=headers,
-            params={"live": "all"}
+            params = {
+                "live": "all",
+                "league": WORLD_CUP_LEAGUE_ID,
+                "season": WORLD_CUP_SEASON,
+            }
         )
 
     data = response.json()
@@ -41,7 +45,7 @@ async def get_standings():
         response = await client.get(
             f"{BASE_URL}/standings",
             headers=headers,
-            params={"league": 1, "season": 2022}  # adjust later for World Cup
+            params={"league": WORLD_CUP_LEAGUE_ID, "season": WORLD_CUP_SEASON}  # adjust later for World Cup
         )
 
     data = response.json()
