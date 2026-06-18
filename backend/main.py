@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from services.football_api import get_live_matches
+from services.football_api import get_live_matches, get_standings
 
 app = FastAPI()
 
@@ -19,3 +20,7 @@ def root():
 @app.get("/matches/live")
 async def live_matches():
     return await get_live_matches()
+
+@app.get("/standings")
+async def standings():
+    return await get_standings()

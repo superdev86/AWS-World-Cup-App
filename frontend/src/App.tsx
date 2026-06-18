@@ -1,18 +1,18 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
 import LiveMatches from "./pages/LiveMatches";
-import Schedule from "./pages/Schedule";
 import Standings from "./pages/Standings";
+import Home from "./pages/Home";
+
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/live" element={<LiveMatches />} />
-        <Route path="/schedule" element={<Schedule />} />
         <Route path="/standings" element={<Standings />} />
       </Routes>
-    </BrowserRouter>
+    </Layout>
   );
 }

@@ -35,3 +35,35 @@ async def get_live_matches():
         })
 
     return {"matches": matches}
+
+async def get_standings():
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            f"{BASE_URL}/standings",
+            headers=headers,
+            params={"league": 1, "season": 2022}  # adjust later for World Cup
+        )
+
+    data = response.json()
+
+    standings = []
+
+    for league in data.get("response", []):
+        for group in league.get("league", {}).get("standings", []):
+            group_table = []
+
+            for team in group:
+                group_table.append({
+                    "rank": team["rank"],
+                    "team": team["team"]["name"],
+                    "played": team["all"]["played"],
+                    "win": team["all"]["win"],
+                    "draw": team["all"]["draw"],
+                    "lose": team["all"]["lose"],
+                    "points": team["points"],
+                    "goalsDiff": team["goalsDiff"]
+                })
+
+            standings.append(group_table)
+
+    return {"groups": standings}
