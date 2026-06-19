@@ -24,7 +24,7 @@ export default function Home() {
           maxWidth: "600px",
         }}
       >
-        Track live matches and explore tournament standings from one place.
+        Browse recent matches and tournament standings from one place.
       </p>
 
       <div
@@ -35,10 +35,10 @@ export default function Home() {
           marginTop: "32px",
         }}
       >
-        <Link to="/live" style={cardStyle}>
-          <h2 style={{ marginTop: 0 }}>🔴 Live Matches</h2>
+        <Link to="/recent" style={cardStyle}>
+          <h2 style={{ marginTop: 0 }}>🔴 Recent Matches</h2>
           <p style={{ marginBottom: 0 }}>
-            See current scores and match status in real time.
+            Browse the latest completed matches from the tournament.
           </p>
         </Link>
 

@@ -11,23 +11,34 @@ headers = {
     "x-apisports-key": API_KEY
 }
 
-async def get_live_matches():
+async def get_recent_matches():
     async with httpx.AsyncClient() as client:
         response = await client.get(
             f"{BASE_URL}/fixtures",
             headers=headers,
-            params = {
-                "live": "all",
+            params={
                 "league": WORLD_CUP_LEAGUE_ID,
                 "season": WORLD_CUP_SEASON,
-            }
+            },
         )
 
     data = response.json()
 
+    # Get all fixtures
+    fixtures = data.get("response", [])
+
+    # Sort by date (newest first)
+    fixtures.sort(
+        key=lambda x: x["fixture"]["date"],
+        reverse=True,
+    )
+
+    # Keep only the 10 most recent
+    fixtures = fixtures[:10]
+
     matches = []
 
-    for item in data.get("response", []):
+    for item in fixtures:
         matches.append({
             "id": item["fixture"]["id"],
             "homeTeam": item["teams"]["home"]["name"],
@@ -35,7 +46,7 @@ async def get_live_matches():
             "homeScore": item["goals"]["home"],
             "awayScore": item["goals"]["away"],
             "status": item["fixture"]["status"]["short"],
-            "minute": item["fixture"]["status"].get("elapsed")
+            "date": item["fixture"]["date"],
         })
 
     return {"matches": matches}

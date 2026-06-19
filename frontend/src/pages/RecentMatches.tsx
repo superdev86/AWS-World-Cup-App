@@ -8,38 +8,36 @@ type Match = {
   homeScore: number;
   awayScore: number;
   status: string;
-  minute?: number;
+  date: string;
 };
 
-export default function LiveMatches() {
+export default function RecentMatches() {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchMatches = async () => {
-    try {
-      const res = await api.get("/matches/live");
-      setMatches(res.data.matches);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const res = await api.get("/matches/recent");
+        setMatches(res.data.matches);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchMatches();
-    const interval = setInterval(fetchMatches, 30000);
-    return () => clearInterval(interval);
   }, []);
 
-  if (loading) return <p>Loading live matches...</p>;
+  if (loading) return <p>Loading recent matches...</p>;
 
   return (
     <div>
-      <h1>Live Matches</h1>
+      <h1>Recent Matches</h1>
 
       {matches.length === 0 ? (
-        <p>No live matches right now.</p>
+        <p>No recent matches found.</p>
       ) : (
         <div style={{ display: "grid", gap: 12 }}>
           {matches.map((m) => (
@@ -58,13 +56,15 @@ export default function LiveMatches() {
               {/* Teams + Score */}
               <div>
                 <div style={{ fontWeight: "bold", fontSize: 16 }}>
-                  {m.homeTeam} <span style={{ margin: "0 8px" }}>
+                  {m.homeTeam}
+                  <span style={{ margin: "0 8px" }}>
                     {m.homeScore} - {m.awayScore}
-                  </span> {m.awayTeam}
+                  </span>
+                  {m.awayTeam}
                 </div>
 
                 <div style={{ fontSize: 12, opacity: 0.7 }}>
-                  {m.status} {m.minute ? `• ${m.minute}'` : ""}
+                  {new Date(m.date).toLocaleDateString()} • {m.status}
                 </div>
               </div>
 
@@ -74,12 +74,7 @@ export default function LiveMatches() {
                   padding: "4px 10px",
                   borderRadius: 20,
                   fontSize: 12,
-                  background:
-                    m.status === "LIVE"
-                      ? "#22c55e"
-                      : m.status === "HT"
-                      ? "#f59e0b"
-                      : "#6b7280",
+                  background: "#6b7280",
                   color: "white",
                 }}
               >

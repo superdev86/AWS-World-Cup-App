@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               height: "24px",
             }}
           />
-          <h2 style={{ margin: 0, fontSize: 18 }}>World Cup Tracker</h2>
+          <h2 style={{ margin: 0, fontSize: 18 }}>World Cup Tracker - 2022</h2>
         </div>
 
         <nav style={{ display: "flex", gap: 8 }}>
@@ -47,8 +47,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             Home
           </Link>
 
-          <Link to="/live" style={linkStyle("/live")}>
-            Live Matches
+          <Link to="/recent" style={linkStyle("/recent")}>
+            Recent Matches
           </Link>
 
           <Link to="/standings" style={linkStyle("/standings")}>
